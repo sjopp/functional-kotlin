@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class DatabaseController {
+class TradeController {
 
-    @GetMapping("/trades")
+//    @GetMapping("/trades")
     fun getTrades(): List<String> {
-        return emptyList();
+        return emptyList()
     }
 }
