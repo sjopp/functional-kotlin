@@ -1,29 +1,32 @@
 package com.jopp.functionalkotlin.functional
 
+import com.jopp.functionalkotlin.dao.TradesDAO
+import com.jopp.functionalkotlin.domain.Trade
 import io.restassured.RestAssured
-import io.restassured.RestAssured.*
+import io.restassured.RestAssured.given
+import io.restassured.config.JsonConfig.jsonConfig
+import io.restassured.config.RestAssuredConfig.newConfig
+import io.restassured.path.json.config.JsonPathConfig
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
-import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ActiveProfiles
+import java.math.BigDecimal
 
 @ActiveProfiles("test")
 class TradeFunctionalTest: FunctionalTest() {
 
     private val getTradesUrl = "/trades"
 
-    @LocalServerPort
-    private val port: Int = 0
+    @Autowired
+    private lateinit var tradeRepository: TradesDAO
 
     @Before
     fun setUp() {
+        tradeRepository.save(Trade(100, BigDecimal.TEN, "GOOG", "2019-25-11 20:03:01.000"))
         RestAssured.port = port
-//        RestAssured.config =
+        RestAssured.config = newConfig().jsonConfig(jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL))
     }
 
     @Test
@@ -34,9 +37,11 @@ class TradeFunctionalTest: FunctionalTest() {
         When().
                 get(getTradesUrl).
         then().
-                statusCode(200)
-//        and().
-//                body("trades[0].volume", equalTo(100))
-//                body(equalTo(""))
+                statusCode(200).
+        and().
+                body("[0].volume", equalTo(100),
+                        "[0].price", equalTo(10),
+                        "[0].stock", equalTo("GOOG"),
+                        "[0].dateTime", equalTo("2019-25-11 20:03:01.000"))
     }
 }
