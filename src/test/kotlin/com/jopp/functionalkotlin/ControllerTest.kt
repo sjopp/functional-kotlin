@@ -32,7 +32,7 @@ class ControllerTest {
     fun testWeReturnATrade() {
         every { tradesDAO.findAll() } returns defaultTradeList()
         val actualTrades = tradeController.getTrades()
-        assertThat(actualTrades.body?.get(0), equalTo(Trade( 100, BigDecimal(100), "AAPL", "2019-11-24 18:36:00.000")))
+        assertThat(actualTrades.body?.trades?.get(0), equalTo(Trade( 100, BigDecimal(100), "AAPL", "2019-11-24 18:36:00.000")))
     }
 
     private fun defaultTradeList(): List<Trade> {

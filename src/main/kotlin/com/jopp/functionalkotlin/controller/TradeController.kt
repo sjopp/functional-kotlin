@@ -2,6 +2,7 @@ package com.jopp.functionalkotlin.controller
 
 import com.jopp.functionalkotlin.dao.TradesDAO
 import com.jopp.functionalkotlin.domain.Trade
+import com.jopp.functionalkotlin.io.TradeResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.http.HttpStatus
@@ -17,7 +18,8 @@ class TradeController {
     lateinit var tradeRepository: TradesDAO
 
     @GetMapping("/trades")
-    fun getTrades(): ResponseEntity<List<Trade>> {
-        return ResponseEntity(tradeRepository.findAll(), HttpStatus.OK)
+    fun getTrades(): ResponseEntity<TradeResponse> {
+        val response = TradeResponse(tradeRepository.findAll())
+        return ResponseEntity(response, HttpStatus.OK)
     }
 }

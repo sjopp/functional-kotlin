@@ -39,9 +39,9 @@ class TradeFunctionalTest: FunctionalTest() {
         then().
                 statusCode(200).
         and().
-                body("[0].volume", equalTo(100),
-                        "[0].price", equalTo(10),
-                        "[0].stock", equalTo("GOOG"),
-                        "[0].dateTime", equalTo("2019-25-11 20:03:01.000"))
+                body("trades[0].volume", equalTo(100),
+                        "trades[0].price", equalTo(10),
+                        "trades[0].stock", equalTo("GOOG"),
+                        "trades[0].dateTime", equalTo("2019-25-11 20:03:01.000"))
     }
 }
