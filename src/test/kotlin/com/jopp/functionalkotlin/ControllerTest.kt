@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.math.BigDecimal
 
-//@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ControllerTest {
 
@@ -33,7 +32,7 @@ class ControllerTest {
     fun testWeReturnATrade() {
         every { tradesDAO.findAll() } returns defaultTradeList()
         val actualTrades = tradeController.getTrades()
-        assertThat(actualTrades[0], equalTo(Trade( 100, BigDecimal(100), "AAPL", "2019-11-24 18:36:00.000")))
+        assertThat(actualTrades.body?.get(0), equalTo(Trade( 100, BigDecimal(100), "AAPL", "2019-11-24 18:36:00.000")))
     }
 
     private fun defaultTradeList(): List<Trade> {
