@@ -18,6 +18,7 @@ import java.math.BigDecimal
 class TradeFunctionalTest: FunctionalTest() {
 
     private val getTradesUrl = "/trades"
+    private val addTradesUrl = "/trade"
 
     @Autowired
     private lateinit var tradeRepository: TradesDAO
@@ -43,5 +44,17 @@ class TradeFunctionalTest: FunctionalTest() {
                         "trades[0].price", equalTo(10),
                         "trades[0].stock", equalTo("GOOG"),
                         "trades[0].dateTime", equalTo("2019-25-11 20:03:01.000"))
+    }
+
+    @Test
+    fun testWeAddATradeToTheDatabase() {
+
+        given().
+                contentType("application/json").
+                body(readFileContents("trade-list.json")).
+        When().
+                post(addTradesUrl).
+        then().
+                statusCode(201)
     }
 }
