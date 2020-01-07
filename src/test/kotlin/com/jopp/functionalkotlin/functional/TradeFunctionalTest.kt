@@ -9,12 +9,15 @@ import io.restassured.config.RestAssuredConfig.newConfig
 import io.restassured.path.json.config.JsonPathConfig
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TradeFunctionalTest: FunctionalTest() {
 
     private val getTradesUrl = "/trades"
@@ -23,7 +26,8 @@ class TradeFunctionalTest: FunctionalTest() {
     @Autowired
     private lateinit var tradeRepository: TradesDAO
 
-    @Before
+//    @Before
+    @BeforeAll
     fun setUp() {
         tradeRepository.save(Trade(100, BigDecimal.TEN, "GOOG", "2019-25-11 20:03:01.000"))
         RestAssured.port = port
