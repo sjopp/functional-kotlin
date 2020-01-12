@@ -1,4 +1,4 @@
-package com.jopp.functionalkotlin.io
+package com.jopp.functionalkotlin.trades.io
 
 import java.math.BigDecimal
 

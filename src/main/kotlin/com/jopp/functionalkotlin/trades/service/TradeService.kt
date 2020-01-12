@@ -1,13 +1,11 @@
-package com.jopp.functionalkotlin.service
+package com.jopp.functionalkotlin.trades.service
 
-import com.jopp.functionalkotlin.dao.TradesDAO
-import com.jopp.functionalkotlin.domain.Trade
-import com.jopp.functionalkotlin.io.TradeRequest
-import io.netty.util.internal.SystemPropertyUtil
+import com.jopp.functionalkotlin.trades.dao.TradesDAO
+import com.jopp.functionalkotlin.trades.domain.Trade
+import com.jopp.functionalkotlin.trades.io.TradeRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.*
 
 @Service
 class TradeService {

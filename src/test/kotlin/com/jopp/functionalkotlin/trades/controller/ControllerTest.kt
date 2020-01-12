@@ -1,9 +1,7 @@
-package com.jopp.functionalkotlin.controller
+package com.jopp.functionalkotlin.trades.controller
 
-import com.jopp.functionalkotlin.dao.TradesDAO
-import com.jopp.functionalkotlin.domain.Trade
-import com.jopp.functionalkotlin.io.TradeRequest
-import com.jopp.functionalkotlin.service.TradeService
+import com.jopp.functionalkotlin.trades.domain.Trade
+import com.jopp.functionalkotlin.trades.service.TradeService
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -13,10 +11,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.mockito.Mockito
-import org.mockito.Mockito.times
 import java.math.BigDecimal
-import kotlin.test.Ignore
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ControllerTest {

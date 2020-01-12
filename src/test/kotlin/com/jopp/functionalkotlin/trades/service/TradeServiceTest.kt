@@ -1,8 +1,7 @@
-package com.jopp.functionalkotlin.service
+package com.jopp.functionalkotlin.trades.service
 
-import com.jopp.functionalkotlin.dao.TradesDAO
-import com.jopp.functionalkotlin.domain.Trade
-import com.jopp.functionalkotlin.io.TradeRequest
+import com.jopp.functionalkotlin.trades.dao.TradesDAO
+import com.jopp.functionalkotlin.trades.domain.Trade
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK

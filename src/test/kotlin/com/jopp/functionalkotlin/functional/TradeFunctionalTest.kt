@@ -1,14 +1,13 @@
 package com.jopp.functionalkotlin.functional
 
-import com.jopp.functionalkotlin.dao.TradesDAO
-import com.jopp.functionalkotlin.domain.Trade
+import com.jopp.functionalkotlin.trades.dao.TradesDAO
+import com.jopp.functionalkotlin.trades.domain.Trade
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.config.JsonConfig.jsonConfig
 import io.restassured.config.RestAssuredConfig.newConfig
 import io.restassured.path.json.config.JsonPathConfig
 import org.hamcrest.CoreMatchers.equalTo
-import org.junit.Before
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -26,7 +25,6 @@ class TradeFunctionalTest: FunctionalTest() {
     @Autowired
     private lateinit var tradeRepository: TradesDAO
 
-//    @Before
     @BeforeAll
     fun setUp() {
         tradeRepository.save(Trade(100, BigDecimal.TEN, "GOOG", "2019-25-11 20:03:01.000"))
@@ -55,7 +53,7 @@ class TradeFunctionalTest: FunctionalTest() {
 
         given().
                 contentType("application/json").
-                body(readFileContents("trade-list.json")).
+                body(readFileContents("__files/database/trade-list.json")).
         When().
                 post(addTradesUrl).
         then().

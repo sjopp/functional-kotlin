@@ -1,6 +1,5 @@
-package com.jopp.functionalkotlin.domain
+package com.jopp.functionalkotlin.trades.domain
 
-import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.math.BigDecimal
 
