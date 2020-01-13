@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.stereotype.Component
+import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import java.util.*
 import java.util.Collections.singletonList
-
 
 @Component
 class ExchangeDataClient {
@@ -22,12 +22,16 @@ class ExchangeDataClient {
     val restTemplate = RestTemplate()
 
     fun getExchangeData(): ExchangeResponse {
-//        return restTemplate.getForEntity(exchangeClientUrl, ExchangeResponse::class.java)
-//                ?: throw ExchangeClientException("Call to exchange rates client failed")
         initialiseRestTemplate()
-        val response: ResponseEntity<ExchangeResponse> =
-                restTemplate.getForEntity<ExchangeResponse>(exchangeClientUrl, ExchangeResponse::class.java)
-        return response.body?: throw ExchangeClientException("Call to exchange rates client failed")
+        val response: ResponseEntity<ExchangeResponse>
+
+        try {
+            response = restTemplate.getForEntity<ExchangeResponse>(exchangeClientUrl, ExchangeResponse::class.java)
+        } catch (e: RestClientException) {
+            throw ExchangeClientException("Call to exchange rates client failed")
+        }
+
+        return response.body?: throw ExchangeClientException("Response from Exchange Client did not have body")
     }
 
     private fun initialiseRestTemplate() {

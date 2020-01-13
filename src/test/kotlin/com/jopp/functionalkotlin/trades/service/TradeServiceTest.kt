@@ -2,6 +2,7 @@ package com.jopp.functionalkotlin.trades.service
 
 import com.jopp.functionalkotlin.trades.dao.TradesDAO
 import com.jopp.functionalkotlin.trades.domain.Trade
+import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -10,7 +11,6 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import io.mockk.MockKAnnotations
 import java.math.BigDecimal
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

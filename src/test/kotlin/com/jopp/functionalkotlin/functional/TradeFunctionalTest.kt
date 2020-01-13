@@ -10,13 +10,11 @@ import io.restassured.path.json.config.JsonPathConfig
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TradeFunctionalTest: FunctionalTest() {
 
     private val getTradesUrl = "/trades"

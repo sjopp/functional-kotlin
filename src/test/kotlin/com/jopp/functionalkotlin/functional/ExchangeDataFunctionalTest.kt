@@ -1,41 +1,26 @@
 package com.jopp.functionalkotlin.functional
 
-import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.client.WireMock.*
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import org.hamcrest.Matchers.equalTo
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ExchangeDataFunctionalTest: FunctionalTest() {
 
     private val getExchangeDataUrl = "/exchange"
 
-    val wireMockServer =  WireMockServer()
-
     @BeforeAll
     fun setUp() {
         RestAssured.port = port
-        wireMockServer.start()
-    }
-
-    @AfterAll
-    fun tearDown() {
-        wireMockServer.stop()
     }
 
     @Test
     fun testWeReturnLatestStockData() {
 
-        stubFor(get(urlEqualTo("/api/v1/forex"))
-                .willReturn(aResponse().
-                                withBodyFile("/forex/base-gbp-data.json")))
+        stubExchangeDataClientOk()
 
         given().
                 contentType("application/json").
@@ -51,15 +36,15 @@ class ExchangeDataFunctionalTest: FunctionalTest() {
     @Test
     fun testWeThrowExceptionWhenTheClientReturnsError() {
 
-        stubFor(get(urlEqualTo("/api/v1/forex"))
-                .willReturn(aResponse().
-                        withStatus(500)))
+        stubExchangeDataClientDown()
 
         given().
                 contentType("application/json").
         When().
                 get(getExchangeDataUrl).
         then().
-                statusCode(500)
+                statusCode(500).
+                body("status", equalTo(500),
+                        "message", equalTo("Call to exchange rates client failed"))
     }
 }
