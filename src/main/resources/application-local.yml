@@ -6,4 +6,5 @@ spring:
       database: trading
 
 exchange:
-  url: "dummy.url.com"
+  url: "https://api.worldtradingdata.com/api/v1/forex"
+  api-key: yy9MnkcNUwWizudg6DYMoF35tzlcNoyLNj5WWsNCTRfxkIBJ4ptw7rQdWqz8

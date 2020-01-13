@@ -11,6 +11,8 @@ import org.springframework.test.context.ActiveProfiles
 class ExchangeDataFunctionalTest: FunctionalTest() {
 
     private val getExchangeDataUrl = "/exchange"
+//    private val EXCHANGE_CLIENT_API_KEY_PARAMETER = "api_token"
+//    private val EXCHANGE_CLIENT_BASE_PARAMETER = "base"
 
     @BeforeAll
     fun setUp() {
@@ -20,28 +22,35 @@ class ExchangeDataFunctionalTest: FunctionalTest() {
     @Test
     fun testWeReturnLatestStockData() {
 
-        stubExchangeDataClientOk()
+//        val urlExtension = "?$EXCHANGE_CLIENT_BASE_PARAMETER=GBP&$EXCHANGE_CLIENT_API_KEY_PARAMETER=$exchangeClientApiKey"
+        val baseCurrency = "USD"
+        val parameterisedUrl = "$getExchangeDataUrl/$baseCurrency"
+
+        stubExchangeDataClientOk(baseCurrency)
 
         given().
                 contentType("application/json").
         When().
-                get(getExchangeDataUrl).
+                get(parameterisedUrl).
         then().
                 statusCode(200).
-                body("base", equalTo("GBP"),
-                        "data.aed", equalTo("4.798852"),
-                        "data.afn", equalTo("101.473095"))
+                body("base", equalTo("USD"),
+                        "data.aed", equalTo("3.672900"),
+                        "data.afn", equalTo("77.300000"))
     }
 
     @Test
     fun testWeThrowExceptionWhenTheClientReturnsError() {
+
+        val baseCurrency = "GBP"
+        val parameterisedUrl = "$getExchangeDataUrl/$baseCurrency"
 
         stubExchangeDataClientDown()
 
         given().
                 contentType("application/json").
         When().
-                get(getExchangeDataUrl).
+                get(parameterisedUrl).
         then().
                 statusCode(500).
                 body("status", equalTo(500),

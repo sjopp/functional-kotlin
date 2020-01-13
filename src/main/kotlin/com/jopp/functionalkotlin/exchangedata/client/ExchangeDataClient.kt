@@ -17,21 +17,26 @@ import java.util.Collections.singletonList
 class ExchangeDataClient {
 
     @Value("\${exchange.url}")
-    private val exchangeClientUrl: String = ""
+    private val exchangeClientBaseUrl: String = ""
 
     val restTemplate = RestTemplate()
 
-    fun getExchangeData(): ExchangeResponse {
+    fun getExchangeData(baseCurrency: String): ExchangeResponse {
         initialiseRestTemplate()
+        val parameterisedUrl = parametriseUrl(exchangeClientBaseUrl, baseCurrency)
         val response: ResponseEntity<ExchangeResponse>
 
         try {
-            response = restTemplate.getForEntity<ExchangeResponse>(exchangeClientUrl, ExchangeResponse::class.java)
+            response = restTemplate.getForEntity<ExchangeResponse>(parameterisedUrl, ExchangeResponse::class.java)
         } catch (e: RestClientException) {
             throw ExchangeClientException("Call to exchange rates client failed")
         }
 
         return response.body?: throw ExchangeClientException("Response from Exchange Client did not have body")
+    }
+
+    private fun parametriseUrl(baseUrl: String, baseCurrency: String): String {
+        return "$baseUrl?base=$baseCurrency"
     }
 
     private fun initialiseRestTemplate() {

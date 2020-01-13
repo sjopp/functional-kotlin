@@ -2,12 +2,14 @@ package com.jopp.functionalkotlin.functional
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import io.restassured.specification.RequestSpecification
 import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.core.io.ClassPathResource
@@ -23,6 +25,12 @@ abstract class FunctionalTest {
 
     @LocalServerPort
     protected val port: Int = 0
+
+    @Value("\${exchange.url}")
+    protected val exchangeClientUrl: String = ""
+
+    @Value("\${exchange.api-key}")
+    protected val exchangeClientApiKey: String = ""
 
     @BeforeAll
     fun setUpMocks() {
@@ -43,13 +51,15 @@ abstract class FunctionalTest {
         return IOUtils.toString(resource, Charset.defaultCharset())
     }
 
-    protected fun stubExchangeDataClientOk() {
-        WireMock.stubFor(WireMock.get(WireMock.urlEqualTo("/api/v1/forex"))
-                .willReturn(WireMock.aResponse().withBodyFile("/forex/base-gbp-data.json")))
+    protected fun stubExchangeDataClientOk(base: String) {
+        WireMock.stubFor(WireMock.get(WireMock.urlPathEqualTo("/api/v1/forex"))
+                .withQueryParam("base", equalTo(base))
+                .willReturn(WireMock.aResponse().withBodyFile("/forex/base-$base-data.json")))
     }
 
     protected fun stubExchangeDataClientDown() {
         WireMock.stubFor(WireMock.get(WireMock.urlEqualTo("/api/v1/forex"))
                 .willReturn(WireMock.aResponse().withStatus(500)))
     }
+
 }

@@ -11,7 +11,7 @@ class ExchangeService {
     @Autowired
     lateinit var exchangeDataClient: ExchangeDataClient
 
-    fun fetchExchangeData(): ExchangeResponse {
-        return exchangeDataClient.getExchangeData()
+    fun fetchExchangeData(baseCurrency: String): ExchangeResponse {
+        return exchangeDataClient.getExchangeData(baseCurrency)
     }
 }
