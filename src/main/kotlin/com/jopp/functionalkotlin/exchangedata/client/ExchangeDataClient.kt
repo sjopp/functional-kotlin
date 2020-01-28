@@ -19,9 +19,13 @@ class ExchangeDataClient {
     @Value("\${exchange.url}")
     private val exchangeClientBaseUrl: String = ""
 
+    @Value("\${exchange.api-key}")
+    private val exchangeClientApiKey: String = ""
+
     val restTemplate = RestTemplate()
 
     fun getExchangeData(baseCurrency: String): ExchangeResponse {
+
         initialiseRestTemplate()
         val parameterisedUrl = parametriseUrl(exchangeClientBaseUrl, baseCurrency)
         val response: ResponseEntity<ExchangeResponse>
@@ -36,7 +40,7 @@ class ExchangeDataClient {
     }
 
     private fun parametriseUrl(baseUrl: String, baseCurrency: String): String {
-        return "$baseUrl?base=$baseCurrency"
+        return "$baseUrl?base=$baseCurrency&api_token=$exchangeClientApiKey"
     }
 
     private fun initialiseRestTemplate() {
