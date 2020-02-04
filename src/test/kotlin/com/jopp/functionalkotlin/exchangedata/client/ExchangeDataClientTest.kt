@@ -1,18 +1,11 @@
 package com.jopp.functionalkotlin.exchangedata.client
 
-import com.jopp.functionalkotlin.exchangedata.exception.ExchangeClientException
-import com.jopp.functionalkotlin.exchangedata.io.response.ExchangeData
-import com.jopp.functionalkotlin.exchangedata.io.response.ExchangeResponse
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.test.util.ReflectionTestUtils
-import org.springframework.web.client.RestClientException
-import kotlin.test.assertFailsWith
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ExchangeDataClientTest {
